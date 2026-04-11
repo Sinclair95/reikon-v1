@@ -11,19 +11,10 @@ on:
           - amd64
           - arm64
 
-env:
-  IMAGE_NAME: ${{ github.event.repository.name }}
-  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
-  DEFAULT_TAG: latest
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
-  build:
-    name: Build disk images
-    runs-on: ${{ inputs.platform == 'amd64' && 'ubuntu-24.04' || 'ubuntu-24.04-arm' }}
+  build-iso:
+    name: Build ISO
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: read
@@ -33,18 +24,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build QCOW2
-        uses: ublue-os/titanoboa@main
-        with:
-          image: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
-          output: qcow2
-          platform: ${{ inputs.platform }}
-          hook-pre-initramfs: ${{ github.workspace }}/iso_files/pre_initramfs.sh
-
       - name: Build ISO
         uses: ublue-os/titanoboa@main
         with:
-          image: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
-          output: anaconda-iso
-          platform: ${{ inputs.platform }}
+          image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          livesys: true
+          add-polkit: true
           hook-pre-initramfs: ${{ github.workspace }}/iso_files/pre_initramfs.sh
+          iso-dest: .
+          builder-distro: fedora
