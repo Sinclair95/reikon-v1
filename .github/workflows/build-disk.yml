@@ -37,3 +37,10 @@ jobs:
           hook-pre-initramfs: ${{ github.workspace }}/iso_files/pre_initramfs.sh
           iso-dest: ${{ github.workspace }}/output.iso
           builder-distro: fedora
+
+                - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: reikon-iso
+          path: ${{ github.workspace }}/output.iso
+          if-no-files-found: error
