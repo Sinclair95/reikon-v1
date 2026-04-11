@@ -14,5 +14,5 @@ systemctl enable podman.socket
 mkdir -p /usr/share/plymouth/themes/reikon
 cp -r /ctx/plymouth/themes/reikon/* /usr/share/plymouth/themes/reikon/
 
-# Set it as default
-plymouth-set-default-theme reikon -R
+# Set it as default without rebuilding initramfs in the container
+plymouth-set-default-theme reikon
