@@ -35,5 +35,5 @@ jobs:
           livesys: true
           add-polkit: true
           hook-pre-initramfs: ${{ github.workspace }}/iso_files/pre_initramfs.sh
-          iso-dest: .
+          iso-dest: ${{ github.workspace }}/output.iso
           builder-distro: fedora
