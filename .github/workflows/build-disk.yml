@@ -29,18 +29,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build ISO
-  uses: ublue-os/titanoboa@main
-  with:
-    image-ref: ${{ env.IMAGE_REF }}
-    livesys: true
-    add-polkit: true
-    hook-pre-initramfs: ${{ github.workspace }}/iso_files/pre_initramfs.sh
-    iso-dest: ${{ github.workspace }}/output.iso
-    builder-distro: fedora
+        uses: ublue-os/titanoboa@main
+        with:
+          image-ref: ${{ env.IMAGE_REF }}
+          livesys: true
+          add-polkit: true
+          hook-pre-initramfs: ${{ github.workspace }}/iso_files/pre_initramfs.sh
+          iso-dest: ${{ github.workspace }}/output.iso
+          builder-distro: fedora
 
-- name: Upload ISO
-  uses: actions/upload-artifact@v4
-  with:
-    name: reikon-iso
-    path: ${{ github.workspace }}/output.iso
-    if-no-files-found: error  
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: reikon-iso
+          path: ${{ github.workspace }}/output.iso
+          if-no-files-found: error
