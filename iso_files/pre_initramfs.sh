@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -eoux pipefail
 
-# REIKON theme is already inside the image from build.sh
-# We only need to set it before Titanoboa generates initramfs
+# Ensure plymouth script plugin exists
+dnf5 install -y plymouth plymouth-plugin-script
 
+# Set REIKON theme
 plymouth-set-default-theme reikon
+
+# Rebuild initramfs WITH the theme
+dracut -f --regenerate-all
